@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>My Awesome To-Do List</h1>
+        <div id="filter-container">
+            <label for="priority-filter">Filter by Priority:</label>
+            <select id="priority-filter">
+                <option value="all">All Priorities</option>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+            </select>
+        </div>
+    </header>
+    <div class="box">
+        <h1>To-Do List</h1>
+    </div>
+    <div class="box">
+        <% for(var i=0; i< ejes.length; i++){%>
+            <div class="item">
+                <input type="checkbox">
+                <p><%= ejes[i] %></p>
+                <div class="actions">
+                    <form action="/update/<%= i %>" method="post" class="update-form">
+                        <input type="text" name="updatedTask" value="<%= ejes[i] %>" required>
+                        <button type="submit">Update</button>
+                    </form>
+                    <form action="/delete/<%= i %>" method="post" class="delete-form">
+                        <button type="submit">Delete</button>
+                    </form>
+                </div>
+            </div>
+        <% }%>
+        <form action="/" method="post" class="add-form">
+            <input type="text" name="ele1" placeholder="Enter new task" required>
+            <button type="submit">+</button>
+        </form>
+    </div>
+    <footer>
+        <p>&copy; 2025 My To-Do List Application</p>
+    </footer>
+
+</body>
+<script>
+    document.getElementById('priority-filter').addEventListener('change', function() {
+        const selectedPriority = this.value;
+        const items = document.querySelectorAll('.item');
+
+        items.forEach(item => {
+            const taskPriority = item.dataset.priority ? item.dataset.priority.toLowerCase() : 'medium';
+
+            if (selectedPriority === 'all' || selectedPriority === taskPriority) {
+                item.style.display = 'flex';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+</script>
+</html>
